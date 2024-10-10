@@ -25,7 +25,7 @@ urlpatterns = [
     path('register/', include('root.urls')),
     path('login/', include('root.urls')),
     path('user_page/', include('root.urls')),
-    path('forum/', include('tmp.urls')),
-    path('vote/', include('tmp.urls')),
-    path('new_topic/', include('tmp.urls')),
+    path('forum/', include('forum.urls')),
+    path('topic/', include('forum.urls')),
+    path('new_topic/', include('forum.urls')),
 ]
