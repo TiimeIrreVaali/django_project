@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from autoslug import AutoSlugField
+from django.utils.text import slugify
+
+from .consts import *
 
 
 class User(AbstractUser):
@@ -16,7 +18,10 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, default="Write a couple of words about yourself")
     avatar = models.ImageField(default=None, blank=True, max_length=255)
     status = models.CharField(max_length=25, blank=True, default='')
-    slug = models.SlugField()
+    slug = models.SlugField(editable=False)
+    age = models.IntegerField(verbose_name='Возраст', null=True, blank=True)
+    gender = models.CharField(verbose_name='Пол', max_length=32, choices=Genders.GENDER_CHOICES, default="H", blank=True)
+    reputation = models.IntegerField(verbose_name='Репутация', default=0)
 
     def __str__(self):
         return f'{self.user} profile'
@@ -25,31 +30,14 @@ class Profile(models.Model):
         return reverse('user_profile', kwargs={'profile_slug': self.slug})
 
     def save(self, *args, **kwargs):
-        super(Profile, self).save()
         if not self.id:
-            self.slug += '-' + str(self.id)
-            super(Profile, self).save(*args, **kwargs)
+            self.slug = slugify(self.user.username)
+            return super(Profile, self).save(*args, **kwargs)
 
 
 class Subforum(models.Model):
-    news = 'News'
-    chars = 'Characters'
-    eps = 'Episodes'
-    refs = 'References'
-    prod = 'Production'
-    bugs = 'bugs'
-
-    THEME_CHOICES = (
-        (news, "News"),
-        (chars, "Characters"),
-        (eps, "Episodes"),
-        (refs, "References"),
-        (prod, "Production"),
-        (bugs, "Bugs"),
-    )
-
-    title = models.CharField(verbose_name='Название', max_length=32, choices=THEME_CHOICES, default=1)
-    slug = AutoSlugField(default='News', populate_from='title')
+    title = models.CharField(verbose_name='Название', max_length=32, choices=Theme.THEME_CHOICES, default=1)
+    slug = models.SlugField(default='News')
 
     class Meta:
         ordering = ['title']
@@ -65,7 +53,7 @@ class Subforum(models.Model):
 
 class Topic(models.Model):
     subject = models.CharField(verbose_name='Заголовок', max_length=255, unique=True)
-    slug = models.SlugField(blank=True, unique=True)
+    slug = models.SlugField(blank=True, unique=True, editable=False)
     subforum = models.ForeignKey('Subforum',
                                  verbose_name='Раздел',
                                  on_delete=models.CASCADE,
@@ -89,10 +77,9 @@ class Topic(models.Model):
         return reverse('topic', kwargs={'topic_slug': self.slug})
 
     def save(self, *args, **kwargs):
-        super(Topic, self).save()
         if not self.id:
-            self.slug += '-' + str(self.id)
-            super(Topic, self).save(*args, **kwargs)
+            self.slug = f'topic-{self.id}'
+            return super(Topic, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):
@@ -107,7 +94,6 @@ class Comment(models.Model):
     content = models.TextField(verbose_name='Текст', max_length=2000)
     created = models.DateTimeField(verbose_name='Дата публикации', auto_now_add=True)
     updated = models.DateTimeField(verbose_name='Дата изменения', auto_now=True)
-    slug = models.SlugField(blank=True, unique=True)
 
     class Meta:
         ordering = ['created']
@@ -116,12 +102,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Post of {self.topic.subject} is posted by {self.author.username}.'
-
-    def get_absolute_url(self):
-        return reverse('comment', kwargs={'comment_slug': self.slug})
-
-    def save(self, *args, **kwargs):
-        super(Comment, self).save()
-        if not self.id:
-            self.slug += '-' + str(self.id)
-            super(Comment, self).save(*args, **kwargs)
