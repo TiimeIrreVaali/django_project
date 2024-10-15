@@ -16,3 +16,4 @@
 ![hw4t4s3](https://github.com/user-attachments/assets/c7284251-8637-46e3-a9b8-afb76ca92350)
 Задание 5 (только aggregate):
 ![hw4t5s1](https://github.com/user-attachments/assets/36bc3372-2014-4ef4-9f01-c3ff1a837f4f)
+![hw4t5s2](https://github.com/user-attachments/assets/732a710d-a6d6-4592-86ca-2b8cc286e7ea)
