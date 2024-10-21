@@ -11,7 +11,7 @@ from .utils import DataMixin
 
 
 class SubForumListView(ListView):
-    model = 'Subforum'
+    model = Subforum
     context_object_name = 'subforum_list'
     template_name = "forum/forum.html"
 
