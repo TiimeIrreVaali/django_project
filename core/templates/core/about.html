@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" href="{% static 'core/css/styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{{title}}</title>
+</head>
+<body id="third">
+    <header>
+        {% include 'core/inc/_timedate.html' %}
+        <nav class="navbar">
+            <a class="btn" href="{% url 'home' %}">Главная</a>
+            <a class="btn active" href="{% url 'about' %}">О проекте</a>
+            <a class="btn" href="{% url 'characters' %}">Персонажи</a>
+            <a class="btn" href="{% url 'episodes' %}">Список серий</a>
+            <a class="btn inactive" href="#">Форум</a>
+            <a class="btn inactive" href="#">Войти</a>
+        </nav>
+    </header>
+<h1>{{title}}</h1>
+<p>О проекте</p>
+</body>

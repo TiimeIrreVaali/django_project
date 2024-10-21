@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <div class="media">
+      {% if p.photo %}
+        <img src="{{p.photo.url}}" alt="" width="300" height="300">
+      {% else %}
+        <img src="{% static 'core/images/Swr-portrait-aya.png' %}" alt="" width="150" height="150">
+      {% endif %}
+    </div>
+    <h2>{{post.title}}</h2>
+    <section>{{post.content|linebreaks}}</section>
+</div>
+{% endblock %}

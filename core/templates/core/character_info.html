@@ -1,0 +1,15 @@
+{% load static %}
+
+<div>
+    <div class="media">
+      {% if char.photo %}
+        <img src="{{p.photo.url}}" alt="" width="300" height="300">
+      {% else %}
+        <img src="{% static 'core/images/Swr-portrait-aya.png' %}" alt="" width="150" height="150">
+      {% endif %}
+    </div>
+    <h3>{{char.name}}</h3>
+    <h4>Тип: {{char.type}}</h4>
+    <h5>{{char.description}}</h5>
+    <section>{{char.content|linebreaks}}</section>
+</div>

@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" href="{% static 'core/css/styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'core/images/main.ico' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body id="third">
+    <header>
+        {% include 'core/inc/_timedate.html' %}
+
+        <nav class="navbar">
+            <a class="btn active" href="{% url 'home' %}">Главная</a>
+            <a class="btn" href="{% url 'about' %}">О проекте</a>
+            <a class="btn" href="{% url 'characters' %}">Персонажи</a>
+            <a class="btn" href="{% url 'episodes' %}">Список серий</a>
+            <a class="btn" href="{% url 'forum:forum' %}">Форум</a>
+            {% if user.is_authenticated %}
+                <a class="btn" href="{% url 'users:profile' %}">{{ user.username }}</a>
+            {% else %}
+                <a class="btn" href="{% url 'users:login' %}">Войти</a> | <a class="btn" href="{% url 'users:register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+        <script>
+        var header = document.getElementByClassName("navbar");
+        var btns = header.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function() {
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+        </script>
+    </header>
+    <div id="page-header">{{title}}</div>
+    <div>
+        {% for ep in episodes %}
+            <div class="episode-field">
+                <div class="episode-image-field">
+                {% if ep.photo %}
+                    <img src="{{ep.photo.url}}" alt="" width="300" height="300">
+                {% else %}
+                    <img src="{% static 'core/images/Swr-portrait-aya.png' %}" alt="" width="150" height="150">
+                {% endif %}
+                </div>
+                <div class="episode-content-field">
+                    <div class="episode-title">{{ep.title}}</div>
+                    <div class="episode-content">{{ep.content}}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

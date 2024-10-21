@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link type="text/css" href="{% static 'core/css/styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="{% static 'core/images/main.ico' %}" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body id="third">
+    <header>
+        {% include 'core/inc/_timedate.html' %}
+
+        <nav class="navbar">
+            <a class="btn" href="{% url 'home' %}">Главная</a>
+            <a class="btn" href="{% url 'about' %}">О проекте</a>
+            <a class="btn active" href="{% url 'characters' %}">Персонажи</a>
+            <a class="btn" href="{% url 'episodes' %}">Список серий</a>
+            <a class="btn" href="{% url 'forum:forum' %}">Форум</a>
+            {% if user.is_authenticated %}
+                <a class="btn" href="{% url 'users:profile' %}">{{ user.username }}</a>
+            {% else %}
+                <a class="btn" href="{% url 'users:login' %}">Войти</a> | <a class="btn" href="{% url 'users:register' %}">Регистрация</a>
+            {% endif %}
+        </nav>
+        <script>
+        var header = document.getElementByClassName("navbar");
+        var btns = header.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function() {
+                var current = document.getElementsByClassName("active");
+                current[0].className = current[0].className.replace(" active", "");
+                this.className += " active";
+            });
+        }
+        </script>
+    </header>
+<div id="page-header">{{title}}</div>
+<div class="main-container">
+    <div id="outers">
+        <div class="faction-header">Внешний мир</div>
+        {% for char in outers %}
+            <div class="outer-chars">
+                <div class="character-field">
+                    <a href="{{ char.get_absolute_url }}">{{char.name}}</a>
+                    <p>{{char.description}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="resistance">
+        <div class="faction-header resistance">Сопротивление</div>
+        {% for char in resistance %}
+            <div class="resistance-chars">
+                <div class="character-field">
+                    <a href="{{ char.get_absolute_url }}">{{char.name}}</a>
+                    <p>{{char.description}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="neutrals">
+        <div class="faction-header neutrals">Нейтральные персонажи</div>
+        {% for char in neutrals %}
+            <div class="neutral-chars">
+                <div class="character-field">
+                    <a href="{{ char.get_absolute_url }}">{{char.name}}</a>
+                    <p>{{char.description}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="domination">
+        <div class="faction-header domination">Волшебное Превосходство</div>
+        {% for char in domination %}
+            <div class="domination-chars">
+                <div class="character-field">
+                    <a href="{{ char.get_absolute_url }}">{{char.name}}</a>
+                    <p>{{char.description}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="moon">
+        <div class="faction-header moon">Луна</div>
+        {% for char in moon %}
+            <div class="moon-chars">
+                <div class="character-field">
+                    <a href="{{ char.get_absolute_url }}">{{char.name}}</a>
+                    <p>{{char.description}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>
