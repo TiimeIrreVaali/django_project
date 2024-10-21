@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Форум сайта</h1>
+
+<div class="container-posts">
+    <div class="row">
+    {% for s in subforums %}
+        <div class="card-body">
+            <a href="{{ s.get_absolute_url }}">{{ s.title }}</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

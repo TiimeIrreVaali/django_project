@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ topic.subject }}</h1>
+
+<div class="container-posts">
+  <div class="row">
+    <div class="card-subtitle">Создал: {{ topic.creator }}, дата создания: {{ topic.created }}</div>
+    <div class="card-subtitle">Всего комментариев в теме: {{ topic.comm_num }}</div>
+    <div class="card-body">
+      <div class="media">
+        {% if p.photo %}
+          <img src="{{p.photo.url}}" alt="" width="300" height="300">
+        {% else %}
+          <img src="{% static 'core/images/Swr-portrait-aya.png' %}" alt="" width="150" height="150">
+        {% endif %}
+      </div>
+      <h5 class="card-subtitle">{{ topic.creator }}</h5>
+      <h5 class="card-subtitle">Создан: {{topic.created|date:"d.m.Y H:i"}}</h5>
+      {% autoescape off %}
+      <p class="card-text">{{topic.first_comment|linebreaks|truncatewords:200}}</p>
+      {% endautoescape %}
+      <div class="clear"></div>
+      <hr>
+    </div>
+    {% for p in comments %}
+      <div class="card-posts">
+        <div class="card-body">
+          <div class="media">
+            {% if p.photo %}
+              <img src="{{p.photo.url}}" alt="" width="300" height="300">
+            {% else %}
+              <img src="{% static 'core/images/Swr-portrait-aya.png' %}" alt="" width="150" height="150">
+            {% endif %}
+          </div>
+          <h5 class="card-subtitle">{{ p.author }}</h5>
+          <h5 class="card-subtitle">Создан: {{p.created|date:"d.m.Y H:i"}}</h5>
+          {% autoescape off %}
+          <p class="card-text">{{p.content|linebreaks|truncatewords:200}}</p>
+          {% endautoescape %}
+          <div class="clear"></div>
+          <hr>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

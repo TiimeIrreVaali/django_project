@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ subforum.title }}</h1>
+
+<div class="container-posts">
+    <h3>Обсуждения</h3>
+    <div class="row">
+    {% for t in topics %}
+        <div class="card-body">
+            <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

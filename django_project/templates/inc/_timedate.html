@@ -1,0 +1,28 @@
+<script type="text/javascript">
+        function getDate() {
+            var curdate = new Date();
+            var year = curdate.getFullYear();
+            var month = curdate.getMonth();
+            var date = curdate.getDate();
+            var hours = curdate.getHours();
+            var minutes = curdate.getMinutes();
+            var seconds = curdate.getSeconds();
+            month = month + 1;
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+            if (seconds < 10) {
+                seconds = '0' + seconds;
+            }
+            if (month < 10) {
+                month = '0' + month;
+            }
+            if (date < 10) {
+                date = '0' + date;
+            }
+            document.getElementById('current-date').innerHTML = date + '.' + month + '.' + year + ' ' +
+                hours + ':' + minutes + ':' + seconds;
+        }
+        setInterval(getDate, 0);
+</script>
+<div id="current-date"></div>
