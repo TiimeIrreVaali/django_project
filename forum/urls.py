@@ -2,6 +2,8 @@ from django.urls import path
 
 from forum.views import *
 
+app_name = 'forum'
+
 urlpatterns = [
     #path('<slug:profile_slug>/', user_profile, name='user_profile'),
     path('', SubForumListView.as_view(), name='forum'),

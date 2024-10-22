@@ -21,8 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('news/', include('core.urls')),
-    path('users/', include(('users.urls', 'users'), namespace="users")),
+    path('users/', include('users.urls', namespace='users')),
     path('user_page/', include('users.urls')),
-    path('forum/', include(('forum.urls', 'forum'), namespace="forum")),
-
+    path('forum/', include('forum.urls', namespace='forum'))
 ]

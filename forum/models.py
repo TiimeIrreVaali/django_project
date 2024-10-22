@@ -30,7 +30,7 @@ class Profile(models.Model):
         return f'{self.user} profile'
 
     def get_absolute_url(self):
-        return reverse('user_profile', kwargs={'profile_slug': self.slug})
+        return reverse('forum:user_profile', kwargs={'profile_slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -57,7 +57,7 @@ class Subforum(models.Model):
             return super(Subforum, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('subforum', kwargs={'name': self.title, 'subforum_slug': self.slug})
+        return reverse('forum:subforum', kwargs={'subforum_slug': self.slug})
 
 
 class Topic(models.Model):
@@ -90,7 +90,7 @@ class Topic(models.Model):
             return super(Topic, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('topic', kwargs={'topic_slug': self.slug})
+        return reverse('forum:topic', kwargs={'topic_slug': self.slug})
 
 
 class Comment(models.Model):
