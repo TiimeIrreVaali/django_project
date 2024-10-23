@@ -1,12 +1,12 @@
 import django_filters
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from forum.models import Topic
 
 
 class TopicFilter(django_filters.FilterSet):
     date_span = django_filters.DateRangeFilter(field_name='created', label='Период создания')
-    comments = django_filters.CharFilter(field_name='comment__content', lookup_expr='icontains', label='Комментарии')
+    comments = django_filters.CharFilter(method='filter_comments', label='Комментарии')
     subject = django_filters.CharFilter(lookup_expr='icontains', label='Тема обсуждения')
     creator = django_filters.CharFilter(field_name='creator__username', lookup_expr='icontains', label='Создатель темы')
     is_empty = django_filters.BooleanFilter(method='filter_empty', label='Темы без комментариев')
@@ -24,3 +24,7 @@ class TopicFilter(django_filters.FilterSet):
             return queryset.filter(comment_count__gte=1)
         else:
             return queryset
+
+    def filter_comments(self, queryset, name, value):
+        queryset = Topic.objects.filter(comments__content__icontains=value)
+        return queryset.distinct()

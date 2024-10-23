@@ -26,14 +26,8 @@ class TopicListView(FilterView):
     model = Topic
     template_name = "forum/subforum.html"
     slug_url_kwarg = 'subforum_slug'
-    context_object_name = 'subforum'
+    context_object_name = 'topics'
     filterset_class = TopicFilter
-'''
-    def get_context_data(self, **kwargs):
-        topics = Topic.objects.all()
-        context = {'filter': self.filterset_class, 'topics': topics}
-        return context
-'''
 
 
 class ShowTopic(DetailView):
@@ -51,14 +45,6 @@ class ShowTopic(DetailView):
                    'comments': comments,
                    'comm_num': comments_number}
         return context
-
-
-    '''
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        comments = Comment.objects.filter(topic=self.slug_url_kwarg)
-        return self.get_mixin_context(context, subject=context['topic'].subject)
-    '''
 
 
 class AddTopic(LoginRequiredMixin, DataMixin, CreateView):
