@@ -3,14 +3,26 @@
 {% block content %}
 <h1>{{ subforum.title }}</h1>
 
+    {% block sidebar %}
+    <div class="container">
+        <div class="container-posts">
+            <form method="get">
+                {% csrf_token %}
+                {{ filter.form.as_p }}
+                <button type="submit">Поиск</button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
 <div class="container-posts">
     <h3>Обсуждения</h3>
     <div class="row">
-    {% for t in topics %}
+        {% for t in topics %}
         <div class="card-body">
-            <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
+            <a href="{{ t.get_absolute_url }}">{{ t.subject }}</a>
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

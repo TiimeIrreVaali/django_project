@@ -5,7 +5,6 @@ from django.utils.text import slugify
 
 from .consts import *
 
-
 '''
 class User(AbstractUser):
     class Meta:
@@ -30,7 +29,7 @@ class Profile(models.Model):
         return f'{self.user} profile'
 
     def get_absolute_url(self):
-        return reverse('user_profile', kwargs={'profile_slug': self.slug})
+        return reverse('forum:user_profile', kwargs={'profile_slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -57,7 +56,7 @@ class Subforum(models.Model):
             return super(Subforum, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('subforum', kwargs={'name': self.title, 'subforum_slug': self.slug})
+        return reverse('forum:subforum', kwargs={'subforum_slug': self.slug})
 
 
 class Topic(models.Model):
@@ -86,18 +85,18 @@ class Topic(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = f'topic-{slugify(self.subject)}'[0:25]
+            self.slug = f'topic-{slugify(self.subject)}'
             return super(Topic, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('topic', kwargs={'topic_slug': self.slug})
+        return reverse('forum:topic', kwargs={'topic_slug': self.slug, 'subforum_slug': self.subforum.slug})
 
 
 class Comment(models.Model):
     topic = models.ForeignKey('Topic',
                               verbose_name='Тема',
                               on_delete=models.CASCADE,
-                              related_name='topic')
+                              related_name='comments')
     author = models.ForeignKey(User,
                                verbose_name='Комментатор',
                                on_delete=models.SET('deleted'),

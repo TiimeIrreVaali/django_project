@@ -1,17 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django_filters.views import FilterView
 
 from core.views import menu
+from .filters import TopicFilter
 from .forms import AddTopicForm, AddCommentForm
 from .models import Subforum, Topic, Comment, Profile
 from .utils import DataMixin
 
 
 class SubForumListView(ListView):
-    model = 'Subforum'
+    model = Subforum
     context_object_name = 'subforum_list'
     template_name = "forum/forum.html"
 
@@ -21,16 +22,18 @@ class SubForumListView(ListView):
         return context
 
 
-class TopicListView(ListView):
+class TopicListView(FilterView):
     model = Topic
     template_name = "forum/subforum.html"
     slug_url_kwarg = 'subforum_slug'
     context_object_name = 'subforum'
-
+    filterset_class = TopicFilter
+'''
     def get_context_data(self, **kwargs):
         topics = Topic.objects.all()
-        context = {'topics': topics}
+        context = {'filter': self.filterset_class, 'topics': topics}
         return context
+'''
 
 
 class ShowTopic(DetailView):
@@ -39,8 +42,8 @@ class ShowTopic(DetailView):
     slug_url_kwarg = 'topic_slug'
     context_object_name = 'topic'
 
-    def get_context_data(self, topic_slug, **kwargs):
-        topic = get_object_or_404(Topic, slug=topic_slug)
+    def get_context_data(self, **kwargs):
+        topic = get_object_or_404(Topic, slug=self.kwargs['topic_slug'])
         comments = Comment.objects.filter(topic=topic)
         comments_number = len(Comment.objects.filter(topic=topic))
         context = {'menu': menu,
