@@ -1,5 +1,6 @@
 Урок 4:
 - Задание 1:
+
 ![hw4t1s1](https://github.com/user-attachments/assets/e477f17d-04cf-4c27-9284-1a134b246db6)
 ![hw4t1s2](https://github.com/user-attachments/assets/e60a9b85-f2b0-49d2-a698-ec04f2d450d2)
 ![hw4t1s3](https://github.com/user-attachments/assets/95a4402c-ef09-4a02-a559-6c6464927c3e)
