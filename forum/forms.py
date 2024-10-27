@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-#from forum.models import Topic, Comment
+from forum import models
 
 
 class AddTopicForm(forms.ModelForm):
@@ -9,7 +9,7 @@ class AddTopicForm(forms.ModelForm):
     first_comment = forms.CharField(label="Сообщение", widget=forms.Textarea())
 
     class Meta:
-        #model = Topic
+        model = models.Topic
         fields = ['subject', 'first_comment']
 
     def clean_subject(self):
@@ -26,5 +26,5 @@ class AddCommentForm(forms.ModelForm):
     content = forms.CharField(label="Текст комментария", max_length=2000, min_length=1, widget=forms.Textarea())
 
     class Meta:
-        #model = Comment
+        model = models.Comment
         fields = ['content']

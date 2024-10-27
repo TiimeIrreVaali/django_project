@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>New topic</h1>
+<h1>Edit comment</h1>
 
 <div class="container-posts">
-    <form method="post">
+    <form action="" method="post">
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
         {% for f in form %}
@@ -13,7 +13,7 @@
                 <div class="form-error">{{ f.errors }}</div>
             </div>
         {% endfor %}
-        <p><button type="submit">Create topic</button></p>
+        <p><button type="submit">Edit comment</button></p>
     </form>
 </div>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Delete topic</h1>
+
+<div class="container-posts">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <p><a href="{% url 'forum:topic' comment.topic.subforum.slug comment.topic.slug %}"><button type="submit">Delete</button></a></p>
+        <a href="{% url 'forum:topic' comment.topic.subforum.slug comment.topic.slug %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

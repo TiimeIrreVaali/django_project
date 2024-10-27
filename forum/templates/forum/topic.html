@@ -7,7 +7,10 @@
 <div class="container-posts">
   <div class="row">
     <div class="card-subtitle">Создал: {{ topic.creator }}, дата создания: {{ topic.created }}</div>
-    <div class="card-subtitle">Всего комментариев в теме: {{ topic.comm_num }}</div>
+    <div class="card-subtitle">Всего комментариев в теме: {{ comm_num }}</div>
+    <div class="container-posts">
+        <a href="add_comment"><button>Оставить комментарий</button></a>
+    </div>
     <div class="card-body">
       <div class="media">
         {% if p.photo %}
@@ -21,9 +24,12 @@
       {% autoescape off %}
       <p class="card-text">{{topic.first_comment|linebreaks|truncatewords:200}}</p>
       {% endautoescape %}
+      <a href="{% url 'forum:edit_comment' topic.subforum.slug topic.slug topic.id %}">Редактировать</a>
       <div class="clear"></div>
       <hr>
     </div>
+
+    <!--Comments section -->
     {% for p in comments %}
       <div class="card-posts">
         <div class="card-body">
@@ -39,11 +45,15 @@
           {% autoescape off %}
           <p class="card-text">{{p.content|linebreaks|truncatewords:200}}</p>
           {% endautoescape %}
+          <div class="card-subtitle">
+            <a href="{% url 'forum:edit_comment' topic.subforum.slug topic.slug p.id %}">Редактировать</a>
+            <a href="{% url 'forum:delete_comment' topic.subforum.slug topic.slug p.id %}">Удалить</a></div>
           <div class="clear"></div>
           <hr>
         </div>
       </div>
     {% endfor %}
+
   </div>
 </div>
 {% endblock %}
