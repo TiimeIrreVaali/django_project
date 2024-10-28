@@ -48,19 +48,19 @@ class CommentTestCase(TestCase):
         self.assertGreater(Comment.objects.count(), old_comments_count)
 
     def test_update_comment(self):
+        data = {
+            'content': 'hehehehehehehe'
+        }
         url = reverse("forum:edit_comment", kwargs={
             'subforum_slug': self.topic.subforum.slug,
             'topic_slug': self.topic.slug,
             'pk': self.comment.pk
         })
         old_content = self.comment.content
-        self.comment.content = 'hehehehehehehe'
-        response = self.client.post(url)
+        response = self.client.post(url, data=data)
+        self.comment.refresh_from_db()
 
-        #response = self.client.post(url, {self.comment.content: 'hehehehehehehe'})
-        #self.comment.refresh_from_db()
-
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
         self.assertNotEqual(self.comment.content, old_content)
 
     def test_delete_comment(self):
